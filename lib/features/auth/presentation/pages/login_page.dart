@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is Authenticated) {
-          context.go('/create');
+          context.go('/home');
         } else if (state is EmailVerificationPending) {
           context.go('/verify-email');
         } else if (state is AuthError) {
