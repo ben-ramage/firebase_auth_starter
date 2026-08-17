@@ -1,3 +1,4 @@
+import 'package:firebase_auth_starter/features/auth/presentation/pages/forgot_password.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/pages/login_page.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/pages/register_page.dart';
 import 'package:flutter/material.dart';

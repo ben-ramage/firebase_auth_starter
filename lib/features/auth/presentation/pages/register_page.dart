@@ -101,7 +101,12 @@ class _RegisterPageState extends State<RegisterPage> {
       );
       return;
     }
-    await context.read<AuthCubit>().register(name, email, password);
+    await context.read<AuthCubit>().register(
+      name,
+      email,
+      password,
+      confirmPassword,
+    );
   }
 
   @override
