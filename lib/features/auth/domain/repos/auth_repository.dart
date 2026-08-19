@@ -25,16 +25,18 @@ abstract class AuthRepository {
 
   Future<void> applyEmailVerificationCode(String actionCode);
 
+  Future<void> sendPasswordResetEmail(String email);
+
   Future<String?> verifyPasswordResetCode(String actionCode);
 
   Future<void> confirmPasswordReset(String actionCode, String newPassword);
 
   Future<void> reauthenticateWithPassword({required String currentPassword});
 
-  Future<void> requestEmailChange({required String newEmail});
+  // Future<void> requestEmailChange({required String newEmail});
 
-  Future<void> changePassword({
-    required String currentPassword,
-    required String newPassword,
-  });
+  // Future<void> changePassword({
+  //   required String currentPassword,
+  //   required String newPassword,
+  // });
 }
