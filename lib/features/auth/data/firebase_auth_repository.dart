@@ -61,6 +61,7 @@ class FirebaseAuthRepository implements AuthRepository {
     String name,
     String email,
     String password,
+    String confirmPassword,
   ) async {
     UserCredential? userCredential;
 
