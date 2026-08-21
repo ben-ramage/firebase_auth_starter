@@ -1,3 +1,4 @@
+import 'package:firebase_auth_starter/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/cubits/auth_states.dart';
 import 'package:firebase_auth_starter/utils/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class VerifyEmailPage extends StatelessWidget {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is Authenticated) {
-          context.go('/create');
+          context.go('/home');
         }
       },
       child: Scaffold(

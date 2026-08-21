@@ -3,6 +3,7 @@ import 'package:firebase_auth_starter/features/auth/presentation/components/auth
 import 'package:firebase_auth_starter/features/auth/presentation/components/email_textfield.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/components/name_textfield.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/components/password_textfield.dart';
+import 'package:firebase_auth_starter/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/cubits/auth_states.dart';
 import 'package:firebase_auth_starter/utils/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -36,9 +37,8 @@ class _RegisterPageState extends State<RegisterPage> {
     FocusScope.of(context).unfocus();
 
     if (_currentPage == 0) {
-      if (!(_nameFormKey.currentState?.validate() ?? false)) return;
-
       final name = _nameController.text.trim();
+      if (!(_nameFormKey.currentState?.validate() ?? false)) return;
 
       if (name.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -47,9 +47,9 @@ class _RegisterPageState extends State<RegisterPage> {
         return;
       }
     } else if (_currentPage == 1) {
+      final password = _passwordController.text;
       if (!(_passwordFormKey.currentState?.validate() ?? false)) return;
 
-      final password = _passwordController.text.trim();
       if (password.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Please enter a password to continue.")),
@@ -92,10 +92,13 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> register() async {
     final name = _nameController.text.trim();
     final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
-    final confirmPassword = _confirmPasswordController.text.trim();
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
 
-    if (name.isEmpty || email.isEmpty || password.isEmpty) {
+    if (name.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Please complete all fields.")),
       );
@@ -114,6 +117,7 @@ class _RegisterPageState extends State<RegisterPage> {
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     _pageController.dispose();
     super.dispose();
   }
@@ -171,92 +175,92 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-}
 
-Widget _buildNameEmailPage(bool isLoading) {
-  return Form(
-    key: _nameFormKey,
-    child: _buildFormContent(
-      isLoading: isLoading,
-      children: [
-        NameTextField(
-          nameController: _nameController,
-          label: "What's your name?",
-        ),
-        const SizedBox(height: 2.5),
-        EmailTextField(
-          emailController: _emailController,
-          label: "What's your email address?",
-        ),
-        const SizedBox(height: 7.5),
-        AppButton(
-          onTap: isLoading ? null : nextPage,
-          text: isLoading ? "Loading..." : "Continue",
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _buildPasswordsPage(bool isLoading) {
-  return Form(
-    key: _passwordFormKey,
-    child: _buildFormContent(
-      isLoading: isLoading,
-      children: [
-        PasswordTextfield(
-          passwordController: _passwordController,
-          label: "Create a password",
-          isHidden: _isHidden,
-          toggleVisibility: togglePasswordVisibility,
-        ),
-        const SizedBox(height: 2.5),
-        PasswordTextfield(
-          passwordController: _confirmPasswordController,
-          label: "Confirm your current password",
-          isHidden: _isHidden,
-          toggleVisibility: togglePasswordVisibility,
-        ),
-        const SizedBox(height: 7.5),
-        AppButton(
-          onTap: isLoading ? null : nextPage,
-          text: isLoading ? "Loading..." : "Register",
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _buildFormContent({
-  required List<Widget> children,
-  required bool isLoading,
-}) {
-  return AuthFormLayout(
-    children: [
-      ...children,
-      const SizedBox(height: 10),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+  Widget _buildNameEmailPage(bool isLoading) {
+    return Form(
+      key: _nameFormKey,
+      child: _buildFormContent(
+        isLoading: isLoading,
         children: [
-          const Text(
-            "Already have an account? ",
-            style: TextStyle(color: Colors.black),
+          NameTextField(
+            nameController: _nameController,
+            label: "What's your name?",
           ),
-          GestureDetector(
-            onTap: isLoading ? null : widget.onBackToLogin,
-            child: const Text(
-              "Log in",
-              style: TextStyle(
-                color: AppColors.alternateRed,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline,
-                decorationColor: AppColors.alternateRed,
-              ),
-            ),
+          const SizedBox(height: 2.5),
+          EmailTextField(
+            emailController: _emailController,
+            label: "What's your email address?",
+          ),
+          const SizedBox(height: 7.5),
+          AppButton(
+            onTap: isLoading ? null : nextPage,
+            text: isLoading ? "Loading..." : "Continue",
           ),
         ],
       ),
-    ],
-  );
+    );
+  }
+
+  Widget _buildPasswordsPage(bool isLoading) {
+    return Form(
+      key: _passwordFormKey,
+      child: _buildFormContent(
+        isLoading: isLoading,
+        children: [
+          PasswordTextfield(
+            passwordController: _passwordController,
+            label: "Create a password",
+            isHidden: _isHidden,
+            toggleVisibility: togglePasswordVisibility,
+          ),
+          const SizedBox(height: 2.5),
+          PasswordTextfield(
+            passwordController: _confirmPasswordController,
+            label: "Confirm your password",
+            isHidden: _isHidden,
+            toggleVisibility: togglePasswordVisibility,
+          ),
+          const SizedBox(height: 7.5),
+          AppButton(
+            onTap: isLoading ? null : nextPage,
+            text: isLoading ? "Loading..." : "Register",
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFormContent({
+    required List<Widget> children,
+    required bool isLoading,
+  }) {
+    return AuthFormLayout(
+      children: [
+        ...children,
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Already have an account? ",
+              style: TextStyle(color: Colors.black),
+            ),
+            GestureDetector(
+              onTap: isLoading ? null : widget.onBackToLogin,
+              child: const Text(
+                "Log in",
+                style: TextStyle(
+                  color: AppColors.alternateRed,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.alternateRed,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 }
