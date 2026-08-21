@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth_starter/responsive/constrained_scaffold.dart';
+import 'package:flutter_svg/svg.dart';
 
 class AuthFormLayout extends StatelessWidget {
   final List<Widget> children;
@@ -37,8 +38,8 @@ class AuthFormLayout extends StatelessWidget {
                     children: [
                       const SizedBox(height: 35),
                       Center(
-                        child: Image.asset(
-                          'images/avataar_ben.png',
+                        child: SvgPicture.asset(
+                          'images/fire_starter.svg',
                           width: 350,
                         ),
                       ),
