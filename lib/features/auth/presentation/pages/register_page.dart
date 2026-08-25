@@ -19,7 +19,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final _nameFormKey = GlobalKey<FormState>();
+  final _detailsFormKey = GlobalKey<FormState>();
   final _passwordFormKey = GlobalKey<FormState>();
 
   final _pageController = PageController();
@@ -37,25 +37,10 @@ class _RegisterPageState extends State<RegisterPage> {
     FocusScope.of(context).unfocus();
 
     if (_currentPage == 0) {
-      final name = _nameController.text.trim();
-      if (!(_nameFormKey.currentState?.validate() ?? false)) return;
-
-      if (name.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Please enter your name to continue.")),
-        );
-        return;
-      }
+      if (!(_detailsFormKey.currentState?.validate() ?? false)) return;
     } else if (_currentPage == 1) {
-      final password = _passwordController.text;
       if (!(_passwordFormKey.currentState?.validate() ?? false)) return;
 
-      if (password.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Please enter a password to continue.")),
-        );
-        return;
-      }
       await register();
       return;
     }
@@ -104,6 +89,20 @@ class _RegisterPageState extends State<RegisterPage> {
       );
       return;
     }
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          const SnackBar(
+            content: Text("Passwords do not match."),
+            backgroundColor: AppColors.alternateRed,
+          ),
+        );
+
+      return;
+    }
+
     await context.read<AuthCubit>().register(
       name,
       email,
@@ -178,7 +177,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _buildNameEmailPage(bool isLoading) {
     return Form(
-      key: _nameFormKey,
+      key: _detailsFormKey,
       child: _buildFormContent(
         isLoading: isLoading,
         children: [

@@ -10,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.example.firebase_auth_starter"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

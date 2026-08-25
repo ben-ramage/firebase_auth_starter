@@ -76,7 +76,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   label: "What's your email address?",
                 ),
                 const SizedBox(height: 20),
-                BlocBuilder(
+                BlocBuilder<AuthCubit, AuthState>(
                   builder: (context, state) {
                     final isLoading = state is AuthLoading;
 
