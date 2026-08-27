@@ -284,8 +284,6 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<String?> verifyPasswordResetCode(String actionCode) async {
-    emit(const AuthLoading());
-
     try {
       final email = await authRepository.verifyPasswordResetCode(actionCode);
 

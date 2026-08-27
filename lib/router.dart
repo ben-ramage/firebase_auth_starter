@@ -40,6 +40,10 @@ GoRouter createRouter(AuthCubit authCubit) {
     redirect: (context, state) {
       final path = state.uri.path;
 
+      debugPrint('ROUTER URI: ${state.uri}');
+      debugPrint('ROUTER PATH: $path');
+      debugPrint('AUTH STATE: ${authCubit.state.runtimeType}');
+
       // Allow Firebase auth action links through
       if (path == '/__/auth/action') return null;
 

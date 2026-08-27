@@ -1,9 +1,6 @@
 import 'package:firebase_auth_starter/features/auth/domain/entities/app_user.dart';
 import 'package:firebase_auth_starter/features/auth/domain/exceptions/auth_failure.dart';
 import 'package:firebase_auth_starter/features/auth/domain/repos/auth_repository.dart';
-// import 'package:mom/features/auth/domain/exceptions/auth_failure.dart';
-// import 'package:mom/features/auth/domain/repos/auth_repository.dart';
-// import 'package:mom/features/auth/domain/entities/app_user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -246,9 +243,9 @@ class FirebaseAuthRepository implements AuthRepository {
       await firebaseAuth.sendPasswordResetEmail(
         email: email.trim(),
         actionCodeSettings: ActionCodeSettings(
-          url: 'https://firebaseauthstarter.web.app/__/auth/action',
+          url: 'https://fir-auth-starter-61de1.web.app/__/auth/action',
           handleCodeInApp: true,
-          androidPackageName: 'com.example.firebaseauthstarter',
+          androidPackageName: 'com.example.firebase_auth_starter',
           androidInstallApp: true,
           androidMinimumVersion: '21',
         ),

@@ -50,16 +50,15 @@ class _AppState extends State<App> {
   }
 
   void _handleIncomingLink(Uri uri) {
-    final path = uri.path;
+    debugPrint('APP LINK RECEIVED: $uri');
+    debugPrint('APP LINK PATH: ${uri.path}');
+    debugPrint('APP LINK QUERY: ${uri.query}');
 
-    if (path == '/__/auth/action') {
-      final route = uri.hasQuery ? '$path?${uri.query}' : path;
+    final route = uri.hasQuery ? '${uri.path}?${uri.query}' : uri.path;
 
-      _router.go(route);
-      return;
-    }
+    debugPrint('APP LINK ROUTING TO: $route');
 
-    _router.go(uri.path);
+    _router.go(route);
   }
 
   @override

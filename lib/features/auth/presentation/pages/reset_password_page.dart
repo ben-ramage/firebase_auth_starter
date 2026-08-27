@@ -98,7 +98,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       },
       child: ConstrainedScaffold(
         body: _isVerifying
-            ? const Center()
+            ? const Center(child: CircularProgressIndicator())
             : _verifiedEmail == null
             ? _buildErrorView()
             : _buildResetForm(),
