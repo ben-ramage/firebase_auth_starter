@@ -35,28 +35,52 @@ class _AppState extends State<App> {
       if (initialUri != null) {
         _handleIncomingLink(initialUri);
       }
-    } catch (_) {
-      // App can continue without an initial deep link.
+    } catch (e) {
+      debugPrint('Failed to read initial app link: $e');
     }
 
     _deepLinkSubscription = _appLinks.uriLinkStream.listen(
       (uri) {
         _handleIncomingLink(uri);
       },
-      onError: (_) {
-        // Ignore deep-link stream errors so they do not break app usage.
+      onError: (Object error) {
+        debugPrint('App link stream error: $error');
       },
     );
   }
 
   void _handleIncomingLink(Uri uri) {
-    debugPrint('APP LINK RECEIVED: $uri');
-    debugPrint('APP LINK PATH: ${uri.path}');
-    debugPrint('APP LINK QUERY: ${uri.query}');
+    Uri routeUri = uri;
 
-    final route = uri.hasQuery ? '${uri.path}?${uri.query}' : uri.path;
+    // Real Firebase Auth emails use a Hosting wrapper such as:
+    //
+    // https://PROJECT.firebaseapp.com/__/auth/links
+    //   ?link=https%3A%2F%2FPROJECT.firebaseapp.com%2F__%2Fauth%2Faction...
+    //
+    // Extract the inner Firebase action URL so GoRouter receives
+    // /__/auth/action with mode, oobCode and the other query parameters.
+    if (uri.host == 'fir-auth-starter-61de1.firebaseapp.com' &&
+        uri.path == '/__/auth/links') {
+      final wrappedLink = uri.queryParameters['link'];
 
-    debugPrint('APP LINK ROUTING TO: $route');
+      if (wrappedLink != null) {
+        final innerUri = Uri.tryParse(wrappedLink);
+
+        final isExpectedAuthAction =
+            innerUri != null &&
+            innerUri.path == '/__/auth/action' &&
+            (innerUri.host == 'fir-auth-starter-61de1.firebaseapp.com' ||
+                innerUri.host == 'fir-auth-starter-61de1.web.app');
+
+        if (isExpectedAuthAction) {
+          routeUri = innerUri;
+        }
+      }
+    }
+
+    final route = routeUri.hasQuery
+        ? '${routeUri.path}?${routeUri.query}'
+        : routeUri.path;
 
     _router.go(route);
   }

@@ -72,10 +72,10 @@ class _EmailTextFieldState extends State<EmailTextField> {
           fontWeight: FontWeight.bold,
         ),
         enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(width: 2.0),
+          borderSide: BorderSide(width: 2.5),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(width: 2.0),
+          borderSide: BorderSide(width: 2.5),
         ),
         helperText: ' ',
       ),

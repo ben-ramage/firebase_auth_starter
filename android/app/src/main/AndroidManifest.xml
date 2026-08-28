@@ -22,15 +22,18 @@
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
 
+            <!-- app_links owns deep-link handling in Flutter. -->
             <meta-data
                 android:name="flutter_deeplinking_enabled"
                 android:value="false" />
 
+            <!-- Normal app launcher. -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <!-- Direct app route used by the Flutter/Firebase auth action handler. -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -41,6 +44,19 @@
                     android:scheme="https"
                     android:host="fir-auth-starter-61de1.web.app"
                     android:pathPrefix="/__/auth/action" />
+            </intent-filter>
+
+            <!-- Firebase Auth Hosting wrapper used by real password-reset emails. -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="https"
+                    android:host="fir-auth-starter-61de1.firebaseapp.com"
+                    android:pathPrefix="/__/auth/links" />
             </intent-filter>
 
         </activity>

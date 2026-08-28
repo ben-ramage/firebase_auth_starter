@@ -213,7 +213,14 @@ class FirebaseAuthRepository implements AuthRepository {
       await user.reload();
 
       if (!user.emailVerified) {
-        await user.sendEmailVerification();
+        await user.sendEmailVerification(
+          ActionCodeSettings(
+            url: 'https://fir-auth-starter-61de1.web.app/__/auth/action',
+            handleCodeInApp: true,
+            androidPackageName: 'com.example.firebase_auth_starter',
+            androidInstallApp: true,
+          ),
+        );
       }
     } on FirebaseAuthException catch (e) {
       throw AuthFailure(e.message ?? 'Failed to send verification email.');
@@ -247,7 +254,6 @@ class FirebaseAuthRepository implements AuthRepository {
           handleCodeInApp: true,
           androidPackageName: 'com.example.firebase_auth_starter',
           androidInstallApp: true,
-          androidMinimumVersion: '21',
         ),
       );
     } on FirebaseAuthException catch (e) {
@@ -265,11 +271,9 @@ class FirebaseAuthRepository implements AuthRepository {
   @override
   Future<String?> verifyPasswordResetCode(String actionCode) async {
     try {
-      final ActionCodeInfo info = await firebaseAuth.checkActionCode(
-        actionCode,
-      );
+      final email = await firebaseAuth.verifyPasswordResetCode(actionCode);
 
-      return info.data['email'] as String?;
+      return email;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'expired-action-code':
