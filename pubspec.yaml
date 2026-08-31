@@ -20,12 +20,13 @@ dependencies:
   email_validator: ^3.0.0
   flutter_bloc: ^9.1.1
   app_links: ^7.0.0
-  uuid: ^4.6.0
-  intl: ^0.20.3
   shared_preferences: ^2.5.5
   equatable: ^2.1.0
   flutter_secure_storage: ^11.0.0
   flutter_svg: ^2.3.0
+  firebase_storage: ^13.5.0
+  image_picker: ^1.2.3
+  flutter_image_compress: ^2.5.1
 
 dev_dependencies:
   flutter_test:
