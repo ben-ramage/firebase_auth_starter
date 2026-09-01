@@ -1,5 +1,5 @@
 name: firebase_auth_starter
-description: "A small demo app that showcases Firebase authentication with GoRouter, AppLinks the Cubit."
+description: "A small demo app that showcases Firebase authentication with GoRouter, AppLinks and Cubit."
 
 publish_to: 'none'
 
