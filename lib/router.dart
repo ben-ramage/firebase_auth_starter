@@ -116,7 +116,7 @@ GoRouter createRouter(AuthCubit authCubit) {
           ),
           GoRoute(
             path: '/profile',
-            builder: (context, state) => const ProfilePage(title: 'Profile'),
+            builder: (context, state) => const ProfilePage(),
           ),
         ],
       ),
