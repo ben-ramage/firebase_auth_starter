@@ -1,8 +1,14 @@
 import 'dart:async';
 import 'package:app_links/app_links.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_starter/features/auth/data/firebase_auth_repository.dart';
 import 'package:firebase_auth_starter/features/auth/domain/repos/auth_repository.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:firebase_auth_starter/features/auth/presentation/cubits/auth_states.dart';
+import 'package:firebase_auth_starter/features/image_upload/data/firebase_image_upload_repository.dart';
+import 'package:firebase_auth_starter/features/image_upload/domain/repos/image_upload_repository.dart';
+import 'package:firebase_auth_starter/features/profile/data/firebase_profile_repository.dart';
+import 'package:firebase_auth_starter/features/profile/domain/repos/profile_repository.dart';
 import 'package:firebase_auth_starter/utils/app_theme.dart';
 import 'package:firebase_auth_starter/router.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +17,8 @@ import 'package:go_router/go_router.dart';
 
 class App extends StatefulWidget {
   final firebaseAuthRepository = FirebaseAuthRepository();
+  final firebaseProfilerepository = FirebaseProfileRepository();
+  final firebaseImageUploadRepository = FirebaseImageUploadRepository();
 
   App({super.key});
 
@@ -100,6 +108,12 @@ class _AppState extends State<App> {
         RepositoryProvider<AuthRepository>.value(
           value: widget.firebaseAuthRepository,
         ),
+        RepositoryProvider<ProfileRepository>.value(
+          value: widget.firebaseProfilerepository,
+        ),
+        RepositoryProvider<ImageUploadRepository>.value(
+          value: widget.firebaseImageUploadRepository,
+        ),
       ],
       child: MultiBlocProvider(
         providers: [BlocProvider<AuthCubit>.value(value: _authCubit)],
@@ -109,6 +123,17 @@ class _AppState extends State<App> {
           theme: AppTheme.lightTheme,
           themeMode: ThemeMode.light,
           routerConfig: _router,
+          builder: (context, child) {
+            return BlocListener<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (state is Authenticated) {
+                  final uid = FirebaseAuth.instance.currentUser?.uid;
+                  if (uid == null) return;
+                }
+              },
+              child: child,
+            );
+          },
         ),
       ),
     );
