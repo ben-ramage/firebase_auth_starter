@@ -8,7 +8,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit({required this.profileRepository})
     : super(const ProfileInitial());
 
-  Future<void> fetchUserProfile(String targetUid) async {
+  Future<void> fetchUserProfile({required String targetUid}) async {
     try {
       emit(const ProfileLoading());
 
