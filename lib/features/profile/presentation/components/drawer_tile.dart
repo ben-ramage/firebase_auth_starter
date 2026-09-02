@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SettingsDrawer extends StatelessWidget {
+class DrawerTile extends StatelessWidget {
   final String title;
   final IconData? icon;
   final FontWeight fontWeight;
@@ -8,7 +8,7 @@ class SettingsDrawer extends StatelessWidget {
   final Color? textColor;
   final VoidCallback? onTap;
 
-  const SettingsDrawer({
+  const DrawerTile({
     super.key,
     required this.title,
     this.icon,

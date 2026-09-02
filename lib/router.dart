@@ -9,6 +9,10 @@ import 'package:firebase_auth_starter/features/auth/presentation/pages/verify_em
     show VerifyEmailActionPage;
 import 'package:firebase_auth_starter/features/auth/presentation/pages/verify_email_change_action_page.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/pages/verify_email_page.dart';
+import 'package:firebase_auth_starter/features/profile/presentation/pages/edit_profile_page.dart';
+import 'package:firebase_auth_starter/features/settings/presentation/account_settings_page.dart';
+import 'package:firebase_auth_starter/features/settings/presentation/update_email_page.dart';
+import 'package:firebase_auth_starter/features/settings/presentation/update_password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth_starter/app_scaffold_with_navbar.dart';
@@ -39,10 +43,6 @@ GoRouter createRouter(AuthCubit authCubit) {
     refreshListenable: GoRouterRefreshStream(authCubit.stream),
     redirect: (context, state) {
       final path = state.uri.path;
-
-      debugPrint('ROUTER URI: ${state.uri}');
-      debugPrint('ROUTER PATH: $path');
-      debugPrint('AUTH STATE: ${authCubit.state.runtimeType}');
 
       // Allow Firebase auth action links through
       if (path == '/__/auth/action') return null;
@@ -116,9 +116,51 @@ GoRouter createRouter(AuthCubit authCubit) {
           ),
           GoRoute(
             path: '/profile',
-            builder: (context, state) => const ProfilePage(),
+            redirect: (context, state) {
+              final uid = authCubit.currentUser?.uid;
+
+              if (uid == null || uid.isEmpty) {
+                return '/';
+              }
+
+              return '/profile/$uid';
+            },
+          ),
+          GoRoute(
+            path: '/profile/:uid',
+            redirect: (context, state) {
+              final requestedUid = state.pathParameters['uid'];
+              final currentUid = authCubit.currentUser?.uid;
+
+              if (currentUid == null || currentUid.isEmpty) {
+                return '/';
+              }
+
+              if (requestedUid != currentUid) {
+                return '/profile/$currentUid';
+              }
+
+              return null;
+            },
+            builder: (context, state) => const ProfilePage(uid: 'uid'),
+          ),
+          GoRoute(
+            path: '/profile/edit',
+            builder: (context, state) => const EditProfilePage(),
           ),
         ],
+      ),
+      GoRoute(
+        path: 'account_settings',
+        builder: (context, state) => AccountSettingsPage(uid: 'uid'),
+      ),
+      GoRoute(
+        path: 'security/email',
+        builder: (context, state) => const UpdateEmailPage(),
+      ),
+      GoRoute(
+        path: 'security/password',
+        builder: (context, state) => const UpdatePasswordPage(),
       ),
     ],
   );
