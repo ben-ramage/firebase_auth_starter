@@ -44,26 +44,35 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
       ],
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Profile"),
-          actions: isOwnProfile ? const [SideDrawerButton()] : null,
-        ),
-        endDrawer: isOwnProfile ? const SideDrawer() : null,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: .center,
-            children: [
-              TextButton(
-                onPressed: () async {
-                  await authCubit.logout();
-                },
-                child: const Text("Logout"),
+      child: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          if (state is ProfileLoading) {
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
+          }
+
+          if (state is ProfileLoaded) {
+            final profileUser = state.profileUser;
+
+            return Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: Text(profileUser.name),
+                actions: isOwnProfile ? const [SideDrawerButton()] : null,
               ),
-            ],
-          ),
-        ),
+              endDrawer: isOwnProfile ? const SideDrawer() : null,
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Text(profileUser.name), Text(profileUser.email)],
+                ),
+              ),
+            );
+          }
+
+          return const Scaffold(body: Center(child: Text("User not found.")));
+        },
       ),
     );
   }

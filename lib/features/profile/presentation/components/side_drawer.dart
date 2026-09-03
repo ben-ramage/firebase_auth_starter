@@ -25,18 +25,23 @@ class SideDrawer extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: ListView(
+        child: Column(
           children: [
-            DrawerTile(
-              title: 'Account',
-              icon: Icons.person,
-              fontWeight: FontWeight.bold,
-              onTap: () =>
-                  navigateTo('/profile/$currentUserId/account_settings'),
+            Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: DrawerTile(
+                title: 'Account',
+                icon: Icons.person,
+                fontWeight: FontWeight.bold,
+                onTap: () =>
+                    navigateTo('/profile/$currentUserId/account_settings'),
+              ),
             ),
             Divider(color: Theme.of(context).colorScheme.inversePrimary),
+            const Spacer(),
             DrawerTile(
               title: 'Logout',
+              icon: Icons.logout,
               fontWeight: FontWeight.bold,
               onTap: () async {
                 await authCubit.logout();
