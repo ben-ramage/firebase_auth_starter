@@ -1,10 +1,12 @@
 import 'package:firebase_auth_starter/features/auth/domain/entities/app_user.dart';
+import 'package:firebase_auth_starter/features/auth/presentation/components/app_button.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:firebase_auth_starter/features/profile/presentation/components/side_drawer.dart';
 import 'package:firebase_auth_starter/features/profile/presentation/cubits/profile_cubit.dart';
 import 'package:firebase_auth_starter/features/profile/presentation/cubits/profile_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfilePage extends StatefulWidget {
   final String uid;
@@ -58,14 +60,53 @@ class _ProfilePageState extends State<ProfilePage> {
             return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                title: Text(profileUser.name),
+                title: const Text("Profile"),
                 actions: isOwnProfile ? const [SideDrawerButton()] : null,
               ),
               endDrawer: isOwnProfile ? const SideDrawer() : null,
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [Text(profileUser.name), Text(profileUser.email)],
+              body: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 20,
+                  ),
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 48,
+                        backgroundImage: profileUser.profileImageUrl.isNotEmpty
+                            ? NetworkImage(profileUser.profileImageUrl)
+                            : null,
+                      ),
+                      const SizedBox(height: 15),
+                      Text(
+                        profileUser.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Text(profileUser.email),
+                      const SizedBox(height: 5),
+                      Text(
+                        profileUser.bio,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      if (isOwnProfile)
+                        SizedBox(
+                          width: double.infinity,
+                          child: AppButton(
+                            onTap: () => context.push('/profile.edit'),
+                            text: "Edit Profile",
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             );
