@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_starter/features/profile/domain/entities/profile_user.dart';
 import 'package:firebase_auth_starter/features/profile/domain/repos/profile_repository.dart';
 import 'package:firebase_storage/firebase_storage.dart';

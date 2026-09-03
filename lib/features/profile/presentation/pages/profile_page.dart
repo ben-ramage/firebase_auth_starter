@@ -1,4 +1,8 @@
+import 'package:firebase_auth_starter/features/auth/domain/entities/app_user.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:firebase_auth_starter/features/profile/presentation/components/side_drawer.dart';
+import 'package:firebase_auth_starter/features/profile/presentation/cubits/profile_cubit.dart';
+import 'package:firebase_auth_starter/features/profile/presentation/cubits/profile_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,27 +17,52 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   late final authCubit = context.read<AuthCubit>();
+  late AppUser? currentUser = authCubit.currentUser;
+
+  bool get _isOwnProfile =>
+      currentUser != null && widget.uid == currentUser!.uid;
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileCubit>().fetchUserProfile(widget.uid);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final authCubit = context.read<AuthCubit>();
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Profile'),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [
-            TextButton(
-              onPressed: () async {
-                await authCubit.logout();
-              },
-              child: const Text("Logout"),
-            ),
-          ],
+    final isOwnProfile = _isOwnProfile;
+
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<ProfileCubit, ProfileState>(
+          listener: (context, state) {
+            if (state is ProfileError) {
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.message)));
+            }
+          },
+        ),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Profile"),
+          actions: isOwnProfile ? const [SideDrawerButton()] : null,
+        ),
+        endDrawer: isOwnProfile ? const SideDrawer() : null,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: .center,
+            children: [
+              TextButton(
+                onPressed: () async {
+                  await authCubit.logout();
+                },
+                child: const Text("Logout"),
+              ),
+            ],
+          ),
         ),
       ),
     );

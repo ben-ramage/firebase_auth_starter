@@ -9,6 +9,8 @@ import 'package:firebase_auth_starter/features/image_upload/data/firebase_image_
 import 'package:firebase_auth_starter/features/image_upload/domain/repos/image_upload_repository.dart';
 import 'package:firebase_auth_starter/features/profile/data/firebase_profile_repository.dart';
 import 'package:firebase_auth_starter/features/profile/domain/repos/profile_repository.dart';
+import 'package:firebase_auth_starter/features/profile/presentation/cubits/edit_profile_cubit.dart';
+import 'package:firebase_auth_starter/features/profile/presentation/cubits/profile_cubit.dart';
 import 'package:firebase_auth_starter/utils/app_theme.dart';
 import 'package:firebase_auth_starter/router.dart';
 import 'package:flutter/material.dart';
@@ -60,13 +62,6 @@ class _AppState extends State<App> {
   void _handleIncomingLink(Uri uri) {
     Uri routeUri = uri;
 
-    // Real Firebase Auth emails use a Hosting wrapper such as:
-    //
-    // https://PROJECT.firebaseapp.com/__/auth/links
-    //   ?link=https%3A%2F%2FPROJECT.firebaseapp.com%2F__%2Fauth%2Faction...
-    //
-    // Extract the inner Firebase action URL so GoRouter receives
-    // /__/auth/action with mode, oobCode and the other query parameters.
     if (uri.host == 'fir-auth-starter-61de1.firebaseapp.com' &&
         uri.path == '/__/auth/links') {
       final wrappedLink = uri.queryParameters['link'];
@@ -116,7 +111,21 @@ class _AppState extends State<App> {
         ),
       ],
       child: MultiBlocProvider(
-        providers: [BlocProvider<AuthCubit>.value(value: _authCubit)],
+        providers: [
+          BlocProvider<AuthCubit>.value(value: _authCubit),
+          BlocProvider(
+            create: (context) => ProfileCubit(
+              profileRepository: widget.firebaseProfilerepository,
+            ),
+          ),
+          BlocProvider(
+            create: (context) => EditProfileCubit(
+              profileRepository: widget.firebaseProfilerepository,
+              imageUploadRepository: widget.firebaseImageUploadRepository,
+              profileCubit: context.read<ProfileCubit>(),
+            ),
+          ),
+        ],
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,
           title: 'Firebase Auth Starter',

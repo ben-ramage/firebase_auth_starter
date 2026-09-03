@@ -127,6 +127,10 @@ GoRouter createRouter(AuthCubit authCubit) {
             },
           ),
           GoRoute(
+            path: '/profile/edit',
+            builder: (context, state) => const EditProfilePage(),
+          ),
+          GoRoute(
             path: '/profile/:uid',
             redirect: (context, state) {
               final requestedUid = state.pathParameters['uid'];
@@ -142,24 +146,28 @@ GoRouter createRouter(AuthCubit authCubit) {
 
               return null;
             },
-            builder: (context, state) => const ProfilePage(uid: 'uid'),
-          ),
-          GoRoute(
-            path: '/profile/edit',
-            builder: (context, state) => const EditProfilePage(),
+            builder: (context, state) {
+              final uid = state.pathParameters['uid']!;
+
+              return ProfilePage(uid: uid);
+            },
           ),
         ],
       ),
       GoRoute(
-        path: 'account_settings',
-        builder: (context, state) => AccountSettingsPage(uid: 'uid'),
+        path: '/account_settings',
+        builder: (context, state) {
+          final uid = authCubit.currentUser!.uid;
+
+          return AccountSettingsPage(uid: uid);
+        },
       ),
       GoRoute(
-        path: 'security/email',
+        path: '/security/email',
         builder: (context, state) => const UpdateEmailPage(),
       ),
       GoRoute(
-        path: 'security/password',
+        path: '/security/password',
         builder: (context, state) => const UpdatePasswordPage(),
       ),
     ],
