@@ -12,22 +12,22 @@ class EditProfileInitial extends EditProfileState {
   const EditProfileInitial();
 }
 
-// Edit Profile Loading
+// Edit Profile Loading State
 class EditProfileLoading extends EditProfileState {
   const EditProfileLoading();
 }
 
-// Edit Profile Success
+// Edit Profile Success State
 class EditProfileSuccess extends EditProfileState {
   const EditProfileSuccess();
 }
 
-// Edit Profile Image Removed
+// Edit Profile Image Removed State
 class EditProfileImageRemoved extends EditProfileState {
   const EditProfileImageRemoved();
 }
 
-// Edit Profile Error
+// Edit Profile Error State
 class EditProfileError extends EditProfileState {
   final String message;
 
