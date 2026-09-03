@@ -74,7 +74,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
         );
       }
 
-      await profileCubit.fetchUserProfile(targetUid: uid);
+      await profileCubit.fetchUserProfile(uid);
 
       emit(const EditProfileSuccess());
     } catch (e) {
@@ -82,13 +82,13 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     }
   }
 
-  Future<void> removeProfilePicture({required String uid}) async {
+  Future<void> removeProfilePicture(String uid) async {
     emit(const EditProfileLoading());
 
     try {
       await profileRepository.removeProfileImage(uid);
 
-      await profileCubit.fetchUserProfile(targetUid: uid);
+      await profileCubit.fetchUserProfile(uid);
 
       emit(const EditProfileImageRemoved());
     } catch (e) {
