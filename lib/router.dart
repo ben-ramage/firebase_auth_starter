@@ -110,10 +110,7 @@ GoRouter createRouter(AuthCubit authCubit) {
           return AppScaffoldWithNavbar(state: state, child: child);
         },
         routes: [
-          GoRoute(
-            path: '/home',
-            builder: (context, state) => const HomePage(title: 'Home'),
-          ),
+          GoRoute(path: '/home', builder: (context, state) => const HomePage()),
           GoRoute(
             path: '/profile',
             redirect: (context, state) {
