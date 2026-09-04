@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
             return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                title: const Text("Profile"),
+                title: Text(profileUser.email),
                 actions: isOwnProfile ? const [SideDrawerButton()] : null,
               ),
               endDrawer: isOwnProfile ? const SideDrawer() : null,
@@ -89,19 +89,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       const SizedBox(height: 5),
-                      Text(profileUser.email),
-                      const SizedBox(height: 5),
                       Text(
                         profileUser.bio,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
+                          fontSize: 16,
                         ),
                       ),
+                      const SizedBox(height: 15),
                       if (isOwnProfile)
                         SizedBox(
                           width: double.infinity,
                           child: AppButton(
-                            onTap: () => context.push('/profile.edit'),
+                            onTap: () => context.push('/profile/edit'),
                             text: "Edit Profile",
                           ),
                         ),

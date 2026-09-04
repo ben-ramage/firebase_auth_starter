@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:firebase_auth_starter/features/auth/presentation/components/name_textfield.dart';
 import 'package:firebase_auth_starter/features/profile/domain/entities/profile_user.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/cubits/auth_cubit.dart';
+import 'package:firebase_auth_starter/features/profile/presentation/components/bio_textfield.dart';
 import 'package:firebase_auth_starter/features/profile/presentation/cubits/edit_profile_cubit.dart';
 import 'package:firebase_auth_starter/features/profile/presentation/cubits/edit_profile_state.dart';
 import 'package:firebase_auth_starter/features/profile/presentation/cubits/profile_cubit.dart';
@@ -288,6 +290,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ),
                 ),
+              ],
+              const SizedBox(height: 20),
+              NameTextField(nameController: nameTextController, label: 'Name'),
+              const SizedBox(height: 15),
+              BioTextfield(bioController: bioTextController, label: 'Bio'),
+              if (isSubmitting) ...[
+                const SizedBox(height: 20),
+                const Center(child: CircularProgressIndicator()),
               ],
             ],
           ),
