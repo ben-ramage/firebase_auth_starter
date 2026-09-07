@@ -20,7 +20,7 @@ class SideDrawer extends StatelessWidget {
 
     void navigateTo(String path) {
       Navigator.of(context).pop();
-      context.go(path);
+      context.push(path);
     }
 
     return Drawer(
@@ -41,8 +41,7 @@ class SideDrawer extends StatelessWidget {
             icon: Icons.person,
             fontWeight: FontWeight.bold,
             splashColor: AppColors.accountSplash.withValues(alpha: 0.75),
-            onTap: () {},
-            // onTap: () => navigateTo('/profile/$currentUserId/account_settings'),
+            onTap: () => navigateTo('/account_settings'),
           ),
           const Spacer(),
           DrawerTile(
