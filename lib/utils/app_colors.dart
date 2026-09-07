@@ -10,6 +10,7 @@ class AppColors {
   static const Color alternateRed = Color(0xFFA81717);
 
   // Drawer splash colors
+  static const Color aboutSplash = Color(0xFFFFBD06);
   static const Color accountSplash = Color(0xFFFF7126);
   static const Color logoutSplash = Color(0xFFBF2021);
 

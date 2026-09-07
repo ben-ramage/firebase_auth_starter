@@ -10,6 +10,7 @@ import 'package:firebase_auth_starter/features/auth/presentation/pages/verify_em
 import 'package:firebase_auth_starter/features/auth/presentation/pages/verify_email_change_action_page.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/pages/verify_email_page.dart';
 import 'package:firebase_auth_starter/features/profile/presentation/pages/edit_profile_page.dart';
+import 'package:firebase_auth_starter/features/settings/presentation/about_page.dart';
 import 'package:firebase_auth_starter/features/settings/presentation/account_settings_page.dart';
 import 'package:firebase_auth_starter/features/settings/presentation/update_email_page.dart';
 import 'package:firebase_auth_starter/features/settings/presentation/update_password_page.dart';
@@ -150,6 +151,12 @@ GoRouter createRouter(AuthCubit authCubit) {
             },
           ),
         ],
+      ),
+      GoRoute(
+        path: '/about_us',
+        builder: (context, state) {
+          return AboutPage();
+        },
       ),
       GoRoute(
         path: '/account_settings',

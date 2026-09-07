@@ -41,6 +41,14 @@ class SideDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           DrawerTile(
+            title: 'About Us',
+            icon: Icons.info,
+            fontWeight: FontWeight.bold,
+            splashColor: AppColors.aboutSplash.withValues(alpha: 0.75),
+            onTap: () => navigateTo('/about_us'),
+          ),
+          const SizedBox(height: 20),
+          DrawerTile(
             title: 'Account',
             icon: Icons.person,
             fontWeight: FontWeight.bold,
