@@ -40,7 +40,7 @@ class SideDrawer extends StatelessWidget {
             title: 'Account',
             icon: Icons.person,
             fontWeight: FontWeight.bold,
-            splashColor: AppColors.accountSplash.withValues(alpha: 0.50),
+            splashColor: AppColors.accountSplash.withValues(alpha: 0.75),
             onTap: () {},
             // onTap: () => navigateTo('/profile/$currentUserId/account_settings'),
           ),
@@ -49,7 +49,7 @@ class SideDrawer extends StatelessWidget {
             title: 'Logout',
             icon: Icons.logout,
             fontWeight: FontWeight.bold,
-            splashColor: AppColors.logoutSplash.withValues(alpha: 0.50),
+            splashColor: AppColors.logoutSplash.withValues(alpha: 0.75),
             onTap: () async {
               await Future.delayed(const Duration(milliseconds: 150));
               await authCubit.logout();
