@@ -34,10 +34,10 @@ abstract class AuthRepository {
 
   Future<void> reauthenticateWithPassword({required String currentPassword});
 
-  // Future<void> requestEmailChange({required String newEmail});
+  Future<void> requestEmailChange({required String newEmail});
 
-  // Future<void> changePassword({
-  //   required String currentPassword,
-  //   required String newPassword,
-  // });
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  });
 }

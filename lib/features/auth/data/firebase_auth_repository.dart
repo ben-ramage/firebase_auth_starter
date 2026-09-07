@@ -3,6 +3,7 @@ import 'package:firebase_auth_starter/features/auth/domain/exceptions/auth_failu
 import 'package:firebase_auth_starter/features/auth/domain/repos/auth_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_starter/features/settings/presentation/update_password_page.dart';
 
 class FirebaseAuthRepository implements AuthRepository {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -342,20 +343,69 @@ class FirebaseAuthRepository implements AuthRepository {
     }
   }
 
-  // @override
-  // Future<void> requestEmailChange({required String newEmail}) {
-  //   // TODO: implement requestEmailChange
-  //   throw UnimplementedError();
-  // }
+  @override
+  Future<void> requestEmailChange({required String newEmail}) async {
+    try {
+      final user = firebaseAuth.currentUser;
 
-  // @override
-  // Future<void> changePassword({
-  //   required String currentPassword,
-  //   required String newPassword,
-  // }) {
-  //   // TODO: implement changePassword
-  //   throw UnimplementedError();
-  // }
+      if (user == null) {
+        throw const AuthFailure("No authenticated user found.");
+      }
+
+      final trimmedEmail = newEmail.trim().toLowerCase();
+
+      await user.verifyBeforeUpdateEmail(
+        trimmedEmail,
+        ActionCodeSettings(
+          url: 'https://mixormeasure.web.app/__/auth/action',
+          handleCodeInApp: true,
+          androidPackageName: 'com.example.mom',
+          androidInstallApp: true,
+          androidMinimumVersion: '21',
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'requires-recent-login':
+          throw const AuthFailure(
+            "For security, please log in again before changing your email.",
+          );
+        case 'email-already-in-use':
+          throw const AuthFailure("This email is already in use.");
+        case 'invalid-email':
+          throw const AuthFailure("Invalid email format.");
+        default:
+          throw AuthFailure(e.message ?? "Failed to request email change.");
+      }
+    }
+  }
+
+  @override
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      await reauthenticateWithPassword(currentPassword: currentPassword);
+
+      final user = firebaseAuth.currentUser;
+
+      if (user == null) {
+        throw const AuthFailure("No authenticated user found.");
+      }
+
+      await user.updatePassword(newPassword.trim());
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'weak-password':
+          throw const AuthFailure("New password is too weak.");
+        case 'requires-recent-login':
+          throw const AuthFailure("Please log in again and retry this change.");
+        default:
+          throw AuthFailure(e.message ?? "Unable to update password.");
+      }
+    }
+  }
 
   Future<void> _deleteIncompleteRegistrationUser(User? user) async {
     if (user == null) return;

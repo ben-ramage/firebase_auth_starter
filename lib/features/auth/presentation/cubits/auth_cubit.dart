@@ -315,6 +315,41 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<bool> changeEmail({
+    required String currentPassword,
+    required String newEmail,
+  }) async {
+    try {
+      await authRepository.reauthenticateWithPassword(
+        currentPassword: currentPassword,
+      );
+
+      await authRepository.requestEmailChange(newEmail: newEmail);
+
+      return true;
+    } catch (e) {
+      emit(AuthSettingsError(message: e.toString()));
+      return false;
+    }
+  }
+
+  Future<bool> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      await authRepository.changePassword(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      );
+
+      return true;
+    } catch (e) {
+      emit(AuthSettingsError(message: e.toString()));
+      return false;
+    }
+  }
+
   @override
   Future<void> close() {
     _emailChecktimer?.cancel();
