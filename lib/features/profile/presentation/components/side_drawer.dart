@@ -18,7 +18,11 @@ class SideDrawer extends StatelessWidget {
       return const Drawer(child: SizedBox.shrink());
     }
 
-    void navigateTo(String path) {
+    void navigateTo(String path) async {
+      await Future.delayed(const Duration(milliseconds: 250));
+
+      if (!context.mounted) return;
+
       Navigator.of(context).pop();
       context.push(path);
     }
