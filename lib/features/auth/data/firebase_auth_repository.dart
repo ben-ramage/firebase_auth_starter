@@ -3,7 +3,6 @@ import 'package:firebase_auth_starter/features/auth/domain/exceptions/auth_failu
 import 'package:firebase_auth_starter/features/auth/domain/repos/auth_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_starter/features/settings/presentation/update_password_page.dart';
 
 class FirebaseAuthRepository implements AuthRepository {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
