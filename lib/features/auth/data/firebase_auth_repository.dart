@@ -356,11 +356,10 @@ class FirebaseAuthRepository implements AuthRepository {
       await user.verifyBeforeUpdateEmail(
         trimmedEmail,
         ActionCodeSettings(
-          url: 'https://mixormeasure.web.app/__/auth/action',
+          url: 'https://fir-auth-starter-61de1.web.app/__/auth/action',
           handleCodeInApp: true,
-          androidPackageName: 'com.example.mom',
+          androidPackageName: 'com.example.firebase_auth_starter',
           androidInstallApp: true,
-          androidMinimumVersion: '21',
         ),
       );
     } on FirebaseAuthException catch (e) {

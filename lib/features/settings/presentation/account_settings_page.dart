@@ -34,7 +34,7 @@ class AccountSettingsPage extends StatelessWidget {
             title: const Text('Update password'),
             subtitle: const Text('Change your account password'),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push('/profile/$uid/security/password'),
+            onTap: () => context.push('/profile/security/password'),
           ),
           const Divider(height: 1),
           ListTile(
@@ -42,7 +42,7 @@ class AccountSettingsPage extends StatelessWidget {
             title: const Text('Update email'),
             subtitle: const Text('Change your email address'),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push('/profile/$uid/security/email'),
+            onTap: () => context.push('/profile/security/email'),
           ),
           const Divider(height: 1),
         ],

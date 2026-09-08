@@ -167,11 +167,11 @@ GoRouter createRouter(AuthCubit authCubit) {
         },
       ),
       GoRoute(
-        path: '/security/email',
+        path: '/profile/security/email',
         builder: (context, state) => const UpdateEmailPage(),
       ),
       GoRoute(
-        path: '/security/password',
+        path: '/profile/security/password',
         builder: (context, state) => const UpdatePasswordPage(),
       ),
     ],

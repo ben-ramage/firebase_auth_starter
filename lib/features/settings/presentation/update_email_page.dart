@@ -7,7 +7,6 @@ import 'package:firebase_auth_starter/features/profile/presentation/components/s
 import 'package:firebase_auth_starter/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class UpdateEmailPage extends StatefulWidget {
   const UpdateEmailPage({super.key});
@@ -28,7 +27,6 @@ class _UpdateEmailPageState extends State<UpdateEmailPage> {
 
     final authCubit = context.read<AuthCubit>();
     final messenger = ScaffoldMessenger.of(context);
-    final router = GoRouter.of(context);
 
     setState(() => _isSaving = true);
 
@@ -66,9 +64,6 @@ class _UpdateEmailPageState extends State<UpdateEmailPage> {
       );
 
       await authCubit.logout();
-
-      if (!mounted) return;
-      router.pop();
     } catch (_) {
       if (!mounted) return;
 
