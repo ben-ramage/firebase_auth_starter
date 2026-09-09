@@ -44,7 +44,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<String?> _safeGetCurrentAuthEmail() async {
     try {
-      return authRepository.getCurrentAuthEmail();
+      return await authRepository.getCurrentAuthEmail();
     } catch (_) {
       return null;
     }

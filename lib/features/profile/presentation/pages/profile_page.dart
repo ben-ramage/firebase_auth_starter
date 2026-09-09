@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
             return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
-                title: Text(profileUser.email),
+                title: Text('Profile'),
                 actions: isOwnProfile ? const [SideDrawerButton()] : null,
               ),
               endDrawer: isOwnProfile ? const SideDrawer() : null,

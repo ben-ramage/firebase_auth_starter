@@ -10,7 +10,7 @@ class AboutPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('About Us'),
+        title: const Text('About'),
         actions: const [SideDrawerButton()],
       ),
       endDrawer: const SideDrawer(),
@@ -31,7 +31,12 @@ class AboutPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: Text(
-                    "Firebase Auth Starter is a reusable Flutter foundation for building apps with secure accounts and user profiles. It includes email authentication, account management, profile editing, and persistent sign-in, so developers can focus on building their app’s unique features.",
+                    "Firebase Auth Starter is a reusable Flutter project that provides "
+                    "the essential account features needed to get an app started.\n\n"
+                    "It includes registration, login, email verification, account settings, "
+                    "and editable user profiles. Built as a learning project, it demonstrates "
+                    "how Flutter, Cubit, and Firebase work together to create a clean, "
+                    "organised foundation for a larger application.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,

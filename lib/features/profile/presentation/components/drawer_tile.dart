@@ -1,3 +1,4 @@
+import 'package:firebase_auth_starter/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class DrawerTile extends StatelessWidget {
@@ -6,6 +7,7 @@ class DrawerTile extends StatelessWidget {
   final Color splashColor;
   final IconData? icon;
   final VoidCallback? onTap;
+  final bool showChevron;
 
   const DrawerTile({
     super.key,
@@ -14,6 +16,7 @@ class DrawerTile extends StatelessWidget {
     required this.splashColor,
     this.icon,
     this.onTap,
+    this.showChevron = true,
   });
 
   @override
@@ -38,14 +41,22 @@ class DrawerTile extends StatelessWidget {
             ),
           ),
           splashColor: splashColor,
+          leading: Icon(icon, color: colorScheme.secondary),
           title: Text(
             title,
             style: TextStyle(
+              fontSize: 16,
               fontWeight: fontWeight,
               color: colorScheme.secondary,
             ),
           ),
-          leading: Icon(icon, color: colorScheme.secondary),
+          trailing: showChevron
+              ? const Icon(
+                  Icons.chevron_right,
+                  size: 20,
+                  color: AppColors.textPrimary,
+                )
+              : null,
           onTap: onTap,
         ),
       ),

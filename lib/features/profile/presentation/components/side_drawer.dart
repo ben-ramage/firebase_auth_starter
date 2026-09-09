@@ -31,14 +31,8 @@ class SideDrawer extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 50),
           SvgPicture.asset('images/fire_starter.svg', width: 180),
-          const SizedBox(height: 20),
-          Divider(
-            height: 1,
-            thickness: 1,
-            color: Theme.of(context).colorScheme.primary,
-          ),
           const SizedBox(height: 20),
           DrawerTile(
             title: 'About Us',
@@ -47,7 +41,13 @@ class SideDrawer extends StatelessWidget {
             splashColor: AppColors.aboutSplash.withValues(alpha: 0.75),
             onTap: () => navigateTo('/about_us'),
           ),
-          const SizedBox(height: 20),
+          const Divider(
+            height: 1,
+            thickness: 1,
+            indent: 30,
+            endIndent: 30,
+            color: AppColors.secondary,
+          ),
           DrawerTile(
             title: 'Account',
             icon: Icons.person,
@@ -60,6 +60,7 @@ class SideDrawer extends StatelessWidget {
             title: 'Logout',
             icon: Icons.logout,
             fontWeight: FontWeight.bold,
+            showChevron: false,
             splashColor: AppColors.logoutSplash.withValues(alpha: 0.75),
             onTap: () async {
               await Future.delayed(const Duration(milliseconds: 150));
