@@ -39,5 +39,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - images/avataar_ben.png
     - images/fire_starter.svg
+    - images/infographic.png
+    - images/security.png

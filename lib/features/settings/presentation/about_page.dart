@@ -1,6 +1,6 @@
 import 'package:firebase_auth_starter/features/profile/presentation/components/side_drawer.dart';
+import 'package:firebase_auth_starter/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -19,14 +19,26 @@ class AboutPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Center(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                SvgPicture.asset('images/fire_starter.svg', width: 180),
+                Image.asset(
+                  'images/infographic.png',
+                  width: 300,
+                  fit: BoxFit.contain,
+                ),
                 const SizedBox(height: 20),
-                Text(
-                  'Random Data We Add Later',
-                  style: TextStyle(fontSize: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Text(
+                    "Firebase Auth Starter is a reusable Flutter foundation for building apps with secure accounts and user profiles. It includes email authentication, account management, profile editing, and persistent sign-in, so developers can focus on building their app’s unique features.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
                 ),
               ],
             ),

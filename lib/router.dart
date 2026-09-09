@@ -23,6 +23,36 @@ import 'package:firebase_auth_starter/features/profile/presentation/pages/profil
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>();
 
+CustomTransitionPage<void> _buildSettingsTransitionPage({
+  required GoRouterState state,
+  required Widget child,
+}) {
+  return CustomTransitionPage(
+    key: state.pageKey,
+    child: child,
+    transitionDuration: const Duration(milliseconds: 300),
+    reverseTransitionDuration: const Duration(milliseconds: 220),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curvedAnimation = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutCubic,
+        reverseCurve: Curves.easeInCubic,
+      );
+
+      return FadeTransition(
+        opacity: curvedAnimation,
+        child: SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0.5, 0),
+            end: Offset.zero,
+          ).animate(curvedAnimation),
+          child: child,
+        ),
+      );
+    },
+  );
+}
+
 class GoRouterRefreshStream extends ChangeNotifier {
   late final StreamSubscription<AuthState> _subscription;
 
@@ -150,29 +180,35 @@ GoRouter createRouter(AuthCubit authCubit) {
               return ProfilePage(uid: uid);
             },
           ),
-        ],
-      ),
-      GoRoute(
-        path: '/about_us',
-        builder: (context, state) {
-          return AboutPage();
-        },
-      ),
-      GoRoute(
-        path: '/account_settings',
-        builder: (context, state) {
-          final uid = authCubit.currentUser!.uid;
+          GoRoute(
+            path: '/about_us',
+            pageBuilder: (context, state) {
+              return _buildSettingsTransitionPage(
+                state: state,
+                child: const AboutPage(),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/account_settings',
+            pageBuilder: (context, state) {
+              final uid = authCubit.currentUser!.uid;
 
-          return AccountSettingsPage(uid: uid);
-        },
-      ),
-      GoRoute(
-        path: '/profile/security/email',
-        builder: (context, state) => const UpdateEmailPage(),
-      ),
-      GoRoute(
-        path: '/profile/security/password',
-        builder: (context, state) => const UpdatePasswordPage(),
+              return _buildSettingsTransitionPage(
+                state: state,
+                child: AccountSettingsPage(uid: uid),
+              );
+            },
+          ),
+          GoRoute(
+            path: '/profile/security/email',
+            builder: (context, state) => const UpdateEmailPage(),
+          ),
+          GoRoute(
+            path: '/profile/security/password',
+            builder: (context, state) => const UpdatePasswordPage(),
+          ),
+        ],
       ),
     ],
   );

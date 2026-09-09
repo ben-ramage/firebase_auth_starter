@@ -40,7 +40,9 @@ class AppScaffoldWithNavbar extends StatelessWidget {
       return 0;
     }
 
-    if (location.startsWith('/profile')) {
+    if (location.startsWith('/profile') ||
+        location == '/account_settings' ||
+        location == '/about_us') {
       return 1;
     }
 
