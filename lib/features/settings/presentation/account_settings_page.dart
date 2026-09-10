@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class AccountSettingsPage extends StatelessWidget {
-  final String uid;
-
-  const AccountSettingsPage({super.key, required this.uid});
+  const AccountSettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +18,7 @@ class AccountSettingsPage extends StatelessWidget {
             if (context.canPop()) {
               context.pop();
             } else {
-              context.go('/profile/$uid');
+              context.go('/profile');
             }
           },
         ),
@@ -74,7 +72,7 @@ class AccountSettingsPage extends StatelessWidget {
                 size: 20,
                 color: AppColors.textSecondary,
               ),
-              onTap: () => context.push('/profile/security/password'),
+              onTap: () => context.push('/settings/security/password'),
             ),
             const Divider(height: 1, indent: 16, endIndent: 16),
             ListTile(
@@ -96,7 +94,7 @@ class AccountSettingsPage extends StatelessWidget {
                 size: 20,
                 color: AppColors.textSecondary,
               ),
-              onTap: () => context.push('/profile/security/email'),
+              onTap: () => context.push('/settings/security/email'),
             ),
             const Divider(height: 1, indent: 16, endIndent: 16),
           ],

@@ -10,6 +10,7 @@ import 'package:firebase_auth_starter/features/auth/presentation/pages/verify_em
 import 'package:firebase_auth_starter/features/auth/presentation/pages/verify_email_change_action_page.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/pages/verify_email_page.dart';
 import 'package:firebase_auth_starter/features/profile/presentation/pages/edit_profile_page.dart';
+import 'package:firebase_auth_starter/features/profile/presentation/pages/profile_page.dart';
 import 'package:firebase_auth_starter/features/settings/presentation/about_page.dart';
 import 'package:firebase_auth_starter/features/settings/presentation/account_settings_page.dart';
 import 'package:firebase_auth_starter/features/settings/presentation/update_email_page.dart';
@@ -18,7 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:firebase_auth_starter/app_scaffold_with_navbar.dart';
 import 'package:firebase_auth_starter/features/home/presentation/pages/home_page.dart';
-import 'package:firebase_auth_starter/features/profile/presentation/pages/profile_page.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -144,41 +144,11 @@ GoRouter createRouter(AuthCubit authCubit) {
           GoRoute(path: '/home', builder: (context, state) => const HomePage()),
           GoRoute(
             path: '/profile',
-            redirect: (context, state) {
-              final uid = authCubit.currentUser?.uid;
-
-              if (uid == null || uid.isEmpty) {
-                return '/';
-              }
-
-              return '/profile/$uid';
-            },
+            builder: (context, state) => const ProfilePage(),
           ),
           GoRoute(
             path: '/profile/edit',
             builder: (context, state) => const EditProfilePage(),
-          ),
-          GoRoute(
-            path: '/profile/:uid',
-            redirect: (context, state) {
-              final requestedUid = state.pathParameters['uid'];
-              final currentUid = authCubit.currentUser?.uid;
-
-              if (currentUid == null || currentUid.isEmpty) {
-                return '/';
-              }
-
-              if (requestedUid != currentUid) {
-                return '/profile/$currentUid';
-              }
-
-              return null;
-            },
-            builder: (context, state) {
-              final uid = state.pathParameters['uid']!;
-
-              return ProfilePage(uid: uid);
-            },
           ),
           GoRoute(
             path: '/about_us',
@@ -190,22 +160,20 @@ GoRouter createRouter(AuthCubit authCubit) {
             },
           ),
           GoRoute(
-            path: '/account_settings',
+            path: '/settings/security',
             pageBuilder: (context, state) {
-              final uid = authCubit.currentUser!.uid;
-
               return _buildSettingsTransitionPage(
                 state: state,
-                child: AccountSettingsPage(uid: uid),
+                child: const AccountSettingsPage(),
               );
             },
           ),
           GoRoute(
-            path: '/profile/security/email',
+            path: '/settings/security/email',
             builder: (context, state) => const UpdateEmailPage(),
           ),
           GoRoute(
-            path: '/profile/security/password',
+            path: '/settings/security/password',
             builder: (context, state) => const UpdatePasswordPage(),
           ),
         ],

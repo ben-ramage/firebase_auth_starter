@@ -1,4 +1,3 @@
-import 'package:firebase_auth_starter/features/auth/domain/entities/app_user.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/components/app_button.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:firebase_auth_starter/features/profile/presentation/components/side_drawer.dart';
@@ -9,31 +8,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String uid;
-
-  const ProfilePage({super.key, required this.uid});
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  late final authCubit = context.read<AuthCubit>();
-  late AppUser? currentUser = authCubit.currentUser;
-
-  bool get _isOwnProfile =>
-      currentUser != null && widget.uid == currentUser!.uid;
-
   @override
   void initState() {
     super.initState();
-    context.read<ProfileCubit>().fetchUserProfile(widget.uid);
+
+    final uid = context.read<AuthCubit>().currentUser?.uid;
+
+    if (uid != null) {
+      context.read<ProfileCubit>().fetchUserProfile(uid);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final isOwnProfile = _isOwnProfile;
-
     return MultiBlocListener(
       listeners: [
         BlocListener<ProfileCubit, ProfileState>(
@@ -61,9 +55,9 @@ class _ProfilePageState extends State<ProfilePage> {
               appBar: AppBar(
                 centerTitle: true,
                 title: Text('Profile'),
-                actions: isOwnProfile ? const [SideDrawerButton()] : null,
+                actions: const [SideDrawerButton()],
               ),
-              endDrawer: isOwnProfile ? const SideDrawer() : null,
+              endDrawer: const SideDrawer(),
               body: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -98,14 +92,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                       const SizedBox(height: 15),
-                      if (isOwnProfile)
-                        SizedBox(
-                          width: double.infinity,
-                          child: AppButton(
-                            onTap: () => context.push('/profile/edit'),
-                            text: "Edit Profile",
-                          ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: AppButton(
+                          onTap: () => context.push('/profile/edit'),
+                          text: "Edit Profile",
                         ),
+                      ),
                     ],
                   ),
                 ),

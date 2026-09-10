@@ -41,19 +41,12 @@ class SideDrawer extends StatelessWidget {
             splashColor: AppColors.aboutSplash.withValues(alpha: 0.75),
             onTap: () => navigateTo('/about_us'),
           ),
-          const Divider(
-            height: 1,
-            thickness: 1,
-            indent: 30,
-            endIndent: 30,
-            color: AppColors.secondary,
-          ),
           DrawerTile(
             title: 'Account',
             icon: Icons.person,
             fontWeight: FontWeight.bold,
             splashColor: AppColors.accountSplash.withValues(alpha: 0.75),
-            onTap: () => navigateTo('/account_settings'),
+            onTap: () => navigateTo('/settings/security'),
           ),
           const Spacer(),
           DrawerTile(

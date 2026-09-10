@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:app_links/app_links.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_starter/features/auth/data/firebase_auth_repository.dart';
 import 'package:firebase_auth_starter/features/auth/domain/repos/auth_repository.dart';
 import 'package:firebase_auth_starter/features/auth/presentation/cubits/auth_cubit.dart';
-import 'package:firebase_auth_starter/features/auth/presentation/cubits/auth_states.dart';
 import 'package:firebase_auth_starter/features/image_upload/data/firebase_image_upload_repository.dart';
 import 'package:firebase_auth_starter/features/image_upload/domain/repos/image_upload_repository.dart';
 import 'package:firebase_auth_starter/features/profile/data/firebase_profile_repository.dart';
@@ -132,17 +130,6 @@ class _AppState extends State<App> {
           theme: AppTheme.lightTheme,
           themeMode: ThemeMode.light,
           routerConfig: _router,
-          builder: (context, child) {
-            return BlocListener<AuthCubit, AuthState>(
-              listener: (context, state) {
-                if (state is Authenticated) {
-                  final uid = FirebaseAuth.instance.currentUser?.uid;
-                  if (uid == null) return;
-                }
-              },
-              child: child,
-            );
-          },
         ),
       ),
     );

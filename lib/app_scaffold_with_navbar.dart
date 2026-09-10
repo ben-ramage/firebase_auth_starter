@@ -34,15 +34,17 @@ class AppScaffoldWithNavbar extends StatelessWidget {
   }
 
   int _calculateSelectedIndex(GoRouterState state) {
-    final String location = state.uri.toString();
+    final path = state.uri.path;
 
-    if (location.startsWith('/home')) {
+    if (path.startsWith('/home')) {
       return 0;
     }
 
-    if (location.startsWith('/profile') ||
-        location == '/account_settings' ||
-        location == '/about_us') {
+    if (path == '/profile' ||
+        path.startsWith('/profile/') ||
+        path == '/settings/security' ||
+        path.startsWith('/settings/security/') ||
+        path == '/about_us') {
       return 1;
     }
 
