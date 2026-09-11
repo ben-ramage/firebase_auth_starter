@@ -26,7 +26,10 @@ class _RegisterPageState extends State<RegisterPage> {
   int _currentPage = 0;
 
   bool _isHidden = true;
+  bool _isConfirmPasswordHidden = true;
   void togglePasswordVisibility() => setState(() => _isHidden = !_isHidden);
+  void toggleConfirmPasswordVisibility() =>
+      setState(() => _isConfirmPasswordHidden = !_isConfirmPasswordHidden);
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -216,8 +219,8 @@ class _RegisterPageState extends State<RegisterPage> {
           PasswordTextfield(
             passwordController: _confirmPasswordController,
             label: "Confirm your password",
-            isHidden: _isHidden,
-            toggleVisibility: togglePasswordVisibility,
+            isHidden: _isConfirmPasswordHidden,
+            toggleVisibility: toggleConfirmPasswordVisibility,
           ),
           const SizedBox(height: 7.5),
           AppButton(
